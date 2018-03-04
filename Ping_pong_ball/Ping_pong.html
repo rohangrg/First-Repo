@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#ball {
+			position: fixed;
+			top: 250px;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background-color: white;
+		}
+		body{
+    		    background-color: black;
+    		    background-image: url("bg.jpg");
+    		    margin: 0px;
+    		    
+		}
+		.box{
+			position: fixed;
+			width: 50px;
+			height: 150px;
+			background-color: white;
+		}
+		#player1{
+			top:250px;
+			left: 10px;
+		}
+		#player2{
+			top:350px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id = "player1" class = "box"></div>
+    <div id = "ball"></div>
+    <div id = "player2" class="box"></div>
+</body>
+<script >
+	bo = document.getElementById('ball');
+	p1 = document.getElementById('player1');
+	p2 = document.getElementById('player2');
+	p1y = p1.getBoundingClientRect().y;
+    p2y = p2.getBoundingClientRect().y;
+	p2.style.left = (window.innerWidth - 60) + 'px';
+	 widthxy  = bo.getBoundingClientRect().width;
+     heightxy  = bo.getBoundingClientRect().height;
+     var f = 1 , d =1;
+	window.addEventListener('load' , function(e){
+		 currentx = bo.getBoundingClientRect().x;
+		 currenty = bo.getBoundingClientRect().y;
+
+		 var game = window.setInterval(function(){
+		 	if(f==1){
+		 		currentx += 9;
+		 	}else {
+		 		currentx -= 9;
+		 	}
+			if(d==1){
+				currenty += 3;
+		 	}else {
+		 		currenty -= 3;
+		 	}
+			bo.style.top = currenty + 'px';	
+			bo.style.left = currentx + 'px';
+			if(currentx + widthxy > window.innerWidth - 60 &&  p2y < currenty + 25  && currenty + 25 < p2y + 150 )
+				f = 2 ;
+			if(currentx - 60 < 0 && p1y < currenty + 25  && currenty + 25 < p1y + 150 )
+				f = 1 ;
+			if(currenty + heightxy > window.innerHeight)
+				d = 2 ;
+			if(currenty < 0 )
+				d = 1 ;
+			if( currentx + widthxy > window.innerWidth){
+					window.alert("Player 1 Wins");
+					window.clearInterval(game);
+			}
+		    if( currentx < 0 ){
+					window.alert("Player 2 Wins");
+					window.clearInterval(game);
+			}
+
+	     },15);
+	});
+	window.addEventListener('keydown' , function(event){
+		 p1y = p1.getBoundingClientRect().y;
+		 p2y = p2.getBoundingClientRect().y;
+		 console.log(event.key);
+		 if(event.key == 's'){
+		 	p1y+=20;
+		 	p1.style.top = p1y + 'px';
+		 }else if(event.key == 'w'){
+		 	p1y-=20;
+		 	p1.style.top = p1y + 'px';
+		 }
+		 if(event.key == 'ArrowDown'){
+		 	p2y+=20;
+		 	p2.style.top = p2y + 'px';
+		 }else if(event.key == 'ArrowUp'){
+		 	p2y-=20;
+		 	p2.style.top = p2y + 'px';
+		 }
+
+	});
+
+		
+
+</script>
+
+</html>
