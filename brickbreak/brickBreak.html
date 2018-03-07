@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		
+		body {
+			background-color: black;
+		}
+		#main{
+			display: flex;
+			justify-content: space-around;
+			margin: 20px;
+			justify-content: space-around;
+		}
+		.brick {
+			width: 100px;
+			height: 30px;
+			background-color: white;
+			border-color: blue;
+			border-style: solid;
+		}
+		#player{
+			position: fixed;
+			background-color: white;
+			width: 150px;
+			height: 35px;
+			border-style: solid;
+			border-color: green;
+		}
+		#ball{
+			position: fixed;
+			top: 500px;
+			border-radius: 50%;
+			background-color: white;
+			border-style: solid;
+			border-color: red;
+			width: 25px;
+			height: 25px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id = "player"></div>
+	<div id = "ball"></div>
+	<audio id="kick"><source src="Kick.wav" type="audio/wav"></audio>
+	<audio id="break"><source src="Break.wav" type="audio/wav"></audio>
+    <div id = "main">
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    </div>
+    
+    <div id = "main">
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    </div>
+    <div id = "main">
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    </div>
+    <div id = "main">
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    </div>
+    <div id = "main">
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    	<div class = "brick"></div>
+    </div>
+
+</body>
+<script >
+	ball = document.getElementById('ball');
+	player = document.getElementById('player');
+	player.style.top = (window.innerHeight - 100) + 'px';
+	player.style.left = (window.innerWidth/2) + 'px';
+    bx = ball.getBoundingClientRect().x;
+	by = ball.getBoundingClientRect().y;
+	px = player.getBoundingClientRect().x;
+	py = player.getBoundingClientRect().y;
+	var kicks = document.getElementById("kick"); 
+	var breaks = document.getElementById("break"); 
+	var f = 1 , u =-1 ;  
+	var bricks;
+	var activel = [];
+	window.addEventListener('load' , function(){
+		for(let i =0 ; i< 40 ; i++)
+		{
+			activel[i] = 1;
+		}
+	});
+	game = window.setInterval(function(){
+		if(f==1){
+			bx+=4;
+		}else{
+			bx-=4;
+		}
+		if(u==-1){
+			by-=11;
+		}else{
+			by+=11;
+		}
+		if(bx + 25 > window.innerWidth)
+			f=-1 ;
+		if(bx < 0 )
+			f = 1 ;
+		if(by < 0)
+			u = 1;
+
+		if(by + 29 > py)
+			if(px<bx+12 && bx+12 < px + 150){
+				kicks.play();
+				u = -1;
+			}
+
+		if(by>window.innerHeight){
+			window.alert("GameOver");
+			window.clearInterval(game);
+			location.reload();
+		}
+
+
+		ball.style.top = by + 'px';	
+		ball.style.left = bx + 'px';
+
+		bricks = document.getElementsByClassName('brick');
+		for (let i = 0 ; i < bricks.length ; i++ )
+		{
+			let brick = bricks[i];
+			let brickx = brick.getBoundingClientRect().x;
+			let bricky = brick.getBoundingClientRect().y;
+			// console.log(brick);
+			if(activel[i]==1)
+			if(bricky < by && by < bricky + 30 )
+			{
+				if(brickx < bx && bx < brickx + 100){
+					activel[i]=0;
+					breaks.play();
+					brick.style.backgroundColor = "black";
+					brick.style.borderColor = "black";
+					// brick.style.background-color = 'black';
+					if(u == -1 )
+						u = 1;
+					else u = -1;
+				}
+			}
+
+			
+
+			
+			// brick.parentNode.removeChild(brick);
+		}
+
+
+		// console.log('Running');
+
+	},30);
+
+	window.addEventListener('keypress' , function(event){
+		// console.log(event.key);
+
+		if(event.key=='a')
+			px-=25;
+		if(event.key=='d')
+			px+=25;
+		player.style.left = px + 'px';
+	})
+
+</script>
+
+</html>
