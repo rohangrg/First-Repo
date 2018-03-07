@@ -10,3 +10,5 @@ controls{
     {player 2(arrowUp , arrowDown)}
 }
 
+BrickBreak -> Simple Brick Break game without using canves (Currently it have lots of bugs)
+
