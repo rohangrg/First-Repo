@@ -11,6 +11,7 @@ function changeColor() {
 let a = x ;
   window.setInterval(function(){
      a.style.backgroundColor = getRandomColor();
+     a.style.color = getRandomColor();
   }, 150);
 }
 for (var i=0, max=all.length; i < max; i++) {
